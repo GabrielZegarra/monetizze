@@ -1,0 +1,41 @@
+class AcquirersIconsStrings {
+  static const String adiq = 'assets/acquirers/adiq.svg';
+  static const String adyen = 'assets/acquirers/adyen.png';
+  static const String alelo = 'assets/acquirers/alelo.png';
+  static const String banescard = 'assets/acquirers/banescard.png';
+  static const String banese = 'assets/acquirers/banese.png';
+  static const String banricompras = 'assets/acquirers/banricompras.png';
+  static const String benvisavale = 'assets/acquirers/benvisavale.png';
+  static const String bigcard = 'assets/acquirers/bigcard.png';
+  static const String bin = 'assets/acquirers/bin.png';
+  static const String c6pay = 'assets/acquirers/c6pay.png';
+  static const String cabal = 'assets/acquirers/cabal.png';
+  static const String caixa = 'assets/acquirers/caixa.svg';
+  static const String caixapagamentos = 'assets/acquirers/caixapagamentos.svg';
+  static const String cardblank = 'assets/acquirers/cardblank.png';
+  static const String cielo = 'assets/acquirers/cielo.png';
+  static const String credsystem = 'assets/acquirers/credsystem.png';
+  static const String dmcard = 'assets/acquirers/dmcard.svg';
+  static const String ecxcard = 'assets/acquirers/ecxcard.png';
+  static const String fortbrasil = 'assets/acquirers/fortbrasil.png';
+  static const String getnet = 'assets/acquirers/getnet.png';
+  static const String greencard = 'assets/acquirers/greencard.png';
+  static const String hiper = 'assets/acquirers/hiper.svg';
+  static const String ifood = 'assets/acquirers/ifood.png';
+  static const String pagseguro = 'assets/acquirers/pagseguro.png';
+  static const String picpay = 'assets/acquirers/picpay.svg';
+  static const String policard = 'assets/acquirers/policard.png';
+  static const String rede = 'assets/acquirers/rede.png';
+  static const String safrapay = 'assets/acquirers/safrapay.png';
+  static const String senff = 'assets/acquirers/senff.svg';
+  static const String sicredi = 'assets/acquirers/sicredi.png';
+  static const String sipag = 'assets/acquirers/sipag.png';
+  static const String sodexo = 'assets/acquirers/sodexo.png';
+  static const String stone = 'assets/acquirers/stone.png';
+  static const String ticket = 'assets/acquirers/ticket.png';
+  static const String tricard = 'assets/acquirers/tricard.png';
+  static const String tripag = 'assets/acquirers/tripag.png';
+  static const String valecard = 'assets/acquirers/valecard.png';
+  static const String vr = 'assets/acquirers/vr.png';
+
+}
