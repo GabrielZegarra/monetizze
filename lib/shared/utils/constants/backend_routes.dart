@@ -1,4 +1,4 @@
 class BackendRoutes {
-  static const String baseUrl = 'https://api-homologacao.finlycard.com/api';
-  static String companies = '$baseUrl/empresa';
+  static const String baseUrl = 'https://servicodados.ibge.gov.br/api/v1/localidades';
+  static String locations = '$baseUrl/distritos';
 }
