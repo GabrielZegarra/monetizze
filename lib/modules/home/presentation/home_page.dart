@@ -16,6 +16,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late ScrollController _scrollController;
   late final HomeCubit cubit;
   final formKey = GlobalKey<FormState>();
 
@@ -24,6 +25,21 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     cubit = Modular.get<HomeCubit>();
     cubit.getLocations();
+    _scrollController = ScrollController();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels >=
+          _scrollController.position.maxScrollExtent &&
+          !cubit.state.isLoadingMore) {
+        cubit.loadMore();
+      }
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -50,75 +66,90 @@ class _HomePageState extends State<HomePage> {
           if (state.isLoading) {
             return const DSLoading();
           }
-          return state.districtEntity != null
+          if (state.errorMessage.isNotEmpty) {
+            return Center(child: Text(state.errorMessage));
+          }
+          return state.displayedEntities.isNotEmpty
               ? Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 34.0),
-                  child: SizedBox(
-                    height: size.height,
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          ListView.builder(
+                  child: SingleChildScrollView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: size.height*0.9,
+                          child: ListView.builder(
                             shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: state.districtEntity!.length,
+                            controller: _scrollController,
+                            itemCount: state.displayedEntities.length +
+                                (state.isLoadingMore ? 1 : 0),
                             itemBuilder: (context, index) {
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 16.0,
-                                ),
-                                child: InkWell(
-                                  onTap: () {
-                                    Modular.to.pushNamed(AppRoutes.details,
-                                        arguments:
-                                            state.districtEntity![index]);
-                                  },
-                                  child: Container(
-                                    width: size.width / 2,
-                                    decoration: BoxDecoration(
-                                      border:
-                                          Border.all(color: DSColors.primary),
-                                      borderRadius: const BorderRadius.all(
-                                        Radius.circular(6),
+                              if (index < state.displayedEntities.length) {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                                  child: InkWell(
+                                    onTap: () {
+                                      Modular.to.pushNamed(
+                                        AppRoutes.details,
+                                        arguments: state.displayedEntities[index],
+                                      );
+                                    },
+                                    child: Container(
+                                      width: size.width / 2,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: DSColors.primary),
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(6),
+                                        ),
                                       ),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 16.0),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                          DSBase.typography.h1.draw(
-                                            '${HomeStrings.title}: ${state.districtEntity![index].municipio.nome}',
-                                            color: DSColors.primary,
-                                          ),
-                                          DSBase.typography.h1.draw(
-                                            '${HomeStrings.state}: ${state.districtEntity![index].municipio.regiaoImediata.regiaoIntermediaria.uf.nome}',
-                                            color: DSColors.primary,
-                                          ),
-                                          DSBase.typography.h1.draw(
-                                            '${HomeStrings.acronym}: ${state.districtEntity![index].municipio.regiaoImediata.regiaoIntermediaria.uf.sigla}',
-                                            color: DSColors.primary,
-                                          ),
-                                          const SizedBox(
-                                            height: 10,
-                                          )
-                                        ],
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 16.0),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            const SizedBox(height: 10),
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: DSBase.typography.h1.draw(
+                                                '${HomeStrings.title}: ${state.displayedEntities[index].municipio.nome}',
+                                                color: DSColors.primary,
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: DSBase.typography.h1.draw(
+                                                '${HomeStrings.state}: ${state.displayedEntities[index].municipio.regiaoImediata.regiaoIntermediaria.uf.nome}',
+                                                color: DSColors.primary,
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: DSBase.typography.h1.draw(
+                                                '${HomeStrings.acronym}: ${state.displayedEntities[index].municipio.regiaoImediata.regiaoIntermediaria.uf.sigla}',
+                                                color: DSColors.primary,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 10),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              );
+                                );
+                              } else {
+                                return const Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 16.0),
+                                  child: DSLoading(),
+                                );
+                              }
                             },
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 )
@@ -139,6 +170,19 @@ class _HomePageState extends State<HomePage> {
                 );
         },
       ),
+      floatingActionButton: _scrollController.hasClients && _scrollController.offset > 300
+          ? FloatingActionButton(
+        onPressed: () {
+          _scrollController.animateTo(
+            0,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeOut,
+          );
+        },
+        backgroundColor: DSColors.primary,
+        child: const Icon(Icons.arrow_upward, color: Colors.white),
+      )
+          : null,
     );
   }
 }
