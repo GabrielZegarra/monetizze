@@ -30,13 +30,20 @@ class MunicipioModel extends MunicipioEntity {
     required int id,
     required String nome,
     required RegiaoImediataModel regiaoImediata,
-  }) : super(id: id, nome: nome, regiaoImediata: regiaoImediata);
+    required MicrorregiaoModel microrregiao,
+  }) : super(
+    id: id,
+    nome: nome,
+    regiaoImediata: regiaoImediata,
+    microrregiao: microrregiao,
+  );
 
   factory MunicipioModel.fromMap(Map<String, dynamic> map) {
     return MunicipioModel(
       id: map['id'],
       nome: map['nome'],
       regiaoImediata: RegiaoImediataModel.fromMap(map['regiao-imediata']),
+      microrregiao: MicrorregiaoModel.fromMap(map['microrregiao']),
     );
   }
 
@@ -45,6 +52,55 @@ class MunicipioModel extends MunicipioEntity {
       'id': id,
       'nome': nome,
       'regiao-imediata': (regiaoImediata as RegiaoImediataModel).toMap(),
+      'microrregiao': (microrregiao as MicrorregiaoModel).toMap(),
+    };
+  }
+}
+
+class MicrorregiaoModel extends MicrorregiaoEntity {
+  MicrorregiaoModel({
+    required int id,
+    required String nome,
+    required MesorregiaoModel mesorregiao,
+  }) : super(id: id, nome: nome, mesorregiao: mesorregiao);
+
+  factory MicrorregiaoModel.fromMap(Map<String, dynamic> map) {
+    return MicrorregiaoModel(
+      id: map['id'],
+      nome: map['nome'],
+      mesorregiao: MesorregiaoModel.fromMap(map['mesorregiao']),
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'nome': nome,
+      'mesorregiao': (mesorregiao as MesorregiaoModel).toMap(),
+    };
+  }
+}
+
+class MesorregiaoModel extends MesorregiaoEntity {
+  MesorregiaoModel({
+    required int id,
+    required String nome,
+    required UFModel uf,
+  }) : super(id: id, nome: nome, uf: uf);
+
+  factory MesorregiaoModel.fromMap(Map<String, dynamic> map) {
+    return MesorregiaoModel(
+      id: map['id'],
+      nome: map['nome'],
+      uf: UFModel.fromMap(map['UF']),
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'nome': nome,
+      'UF': (uf as UFModel).toMap(),
     };
   }
 }

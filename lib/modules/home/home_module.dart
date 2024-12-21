@@ -1,7 +1,7 @@
-import 'package:dio/dio.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import '../../shared/utils/dio/dio_base_options.dart';
 import '../../shared/utils/dio/dio_client.dart';
+import '../details_municipalities/details_municipalities_module.dart';
 import 'data/datasources/home_datasources.dart';
 import 'data/repositories/home_repositories_impl.dart';
 import 'domain/repositories/home_repositories.dart';
@@ -27,4 +27,9 @@ class HomeModule extends Module {
       child: (_) => const HomePage(),
     );
   }
+
+  @override
+  final List<Module> imports = [
+    DetailsMunicipalitiesModule(),
+  ];
 }

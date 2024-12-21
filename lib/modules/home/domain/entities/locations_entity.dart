@@ -14,11 +14,37 @@ class MunicipioEntity {
   final int id;
   final String nome;
   final RegiaoImediataEntity regiaoImediata;
+  final MicrorregiaoEntity microrregiao;
 
   MunicipioEntity({
     required this.id,
     required this.nome,
     required this.regiaoImediata,
+    required this.microrregiao,
+  });
+}
+
+class MicrorregiaoEntity {
+  final int id;
+  final String nome;
+  final MesorregiaoEntity mesorregiao;
+
+  MicrorregiaoEntity({
+    required this.id,
+    required this.nome,
+    required this.mesorregiao,
+  });
+}
+
+class MesorregiaoEntity {
+  final int id;
+  final String nome;
+  final UFEntity uf;
+
+  MesorregiaoEntity({
+    required this.id,
+    required this.nome,
+    required this.uf,
   });
 }
 
