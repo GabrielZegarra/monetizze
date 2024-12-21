@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: DSColors.primary,
         centerTitle: true,
         title: DSBase.typography.h1.draw(
-          'Distritos',
+          HomeStrings.title,
           color: DSColors.white,
         ),
       ),
@@ -68,11 +68,16 @@ class _HomePageState extends State<HomePage> {
                                   vertical: 16.0,
                                 ),
                                 child: InkWell(
-                                  onTap: (){},
+                                  onTap: () {
+                                    Modular.to.pushNamed(AppRoutes.details,
+                                        arguments:
+                                            state.districtEntity![index]);
+                                  },
                                   child: Container(
                                     width: size.width / 2,
                                     decoration: BoxDecoration(
-                                      border: Border.all(color: DSColors.primary),
+                                      border:
+                                          Border.all(color: DSColors.primary),
                                       borderRadius: const BorderRadius.all(
                                         Radius.circular(6),
                                       ),
@@ -90,15 +95,15 @@ class _HomePageState extends State<HomePage> {
                                             height: 10,
                                           ),
                                           DSBase.typography.h1.draw(
-                                            'Município: ${state.districtEntity![index].municipio.nome}',
+                                            '${HomeStrings.title}: ${state.districtEntity![index].municipio.nome}',
                                             color: DSColors.primary,
                                           ),
                                           DSBase.typography.h1.draw(
-                                            'Estado: ${state.districtEntity![index].municipio.regiaoImediata.regiaoIntermediaria.uf.nome}',
+                                            '${HomeStrings.state}: ${state.districtEntity![index].municipio.regiaoImediata.regiaoIntermediaria.uf.nome}',
                                             color: DSColors.primary,
                                           ),
                                           DSBase.typography.h1.draw(
-                                            'Sigla: ${state.districtEntity![index].municipio.regiaoImediata.regiaoIntermediaria.uf.sigla}',
+                                            '${HomeStrings.acronym}: ${state.districtEntity![index].municipio.regiaoImediata.regiaoIntermediaria.uf.sigla}',
                                             color: DSColors.primary,
                                           ),
                                           const SizedBox(
